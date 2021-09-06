@@ -9,7 +9,7 @@ const swaggerDef = {
   },
   servers: [
     {
-      url: `http://localhost:${config.port}/v1`,
+      url: config.env !== 'production' ? `http://localhost:${config.port}/v1` : `https://getir-dp.herokuapp.com/v1`,
     },
   ],
 };
