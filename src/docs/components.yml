@@ -1,0 +1,87 @@
+paths:
+  /records:
+    post:
+      summary: get all the records matching the filter 
+      requestBody:
+        description: Request body
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetRecordsRequest'
+      responses:
+        '200':
+          description: List of records 
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetRecordsResponse'
+              examples: 
+                responseData:
+                  value:
+                    code: 0
+                    msg: Success
+                    records:
+                    - key: ibfRLaFT
+                      createdAt: '2016-12-25T16:43:27.909Z'
+                      totalCount: 2892
+                    - key: pxClAvll
+                      createdAt: '2016-12-19T10:00:40.050Z'
+                      totalCount: 2772
+        '400':
+          description : Bad request
+          content:
+            application/json:
+              examples:
+                errorResponse:
+                  value:
+                    code: 400
+                    msg: 'endDate must be greater than ref:startDate'
+                    stack: 'Error'
+        '500':
+          description : Internal Server Error
+          content:
+            application/json:
+              examples:
+                errorResponse:
+                  value:
+                    code: 400
+                    msg: 'Unable to query the database'
+                    stack: 'Error'
+        
+components:
+  schemas:
+    GetRecordsRequest:
+      type: object
+      properties:
+        startDate:
+          type: string
+        endDate:
+          type: string
+        minCount:
+          type: number
+        maxCount:
+          type: number
+      example:
+        startDate: '2016-01-26'
+        endDate: '2018-02-02'
+        minCount: 2700
+        maxCount: 3000
+    GetRecordsResponse:
+      type: object
+      properties:
+        code: 
+          type: number
+        msg:
+          type: string
+        records: 
+          $ref: '#/components/schemas/Record'
+    Record:
+      type: object
+      properties:
+        key: 
+          type: string
+        createdAt:
+          type: string
+        totalCount: 
+          type: number    
